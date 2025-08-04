@@ -1,0 +1,22 @@
+/* src/main/webapp/frontend/styles/shared-styles.css */
+
+vaadin-vertical-layout.menu {
+    background-color: #2c3e50; /* mørk gråblå */
+    color: white;
+    padding: 10px;
+    min-height: 100vh;
+}
+
+vaadin-vertical-layout.menu span,
+vaadin-vertical-layout.menu button,
+vaadin-vertical-layout.menu text-field,
+vaadin-vertical-layout.menu upload {
+    color: white;
+}
+
+#svg-canvas {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    position: relative;
+    overflow: hidden;
+}

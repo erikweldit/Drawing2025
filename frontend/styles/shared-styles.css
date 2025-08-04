@@ -1,0 +1,21 @@
+/* Delte stiler for applikasjonen */
+#svg-canvas {
+    background-color: white;
+    position: relative;
+    z-index: 0;
+}
+
+.gallery-image {
+    border: 1px solid #ccc;
+    margin: 4px;
+    cursor: pointer;
+}
+
+.menu-header {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.v-vertical-layout {
+    z-index: 1;
+}

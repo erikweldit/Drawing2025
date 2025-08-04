@@ -1,0 +1,115 @@
+Manifest-Version: 1.0
+Main-Class: Application
+Class-Path: commons-logging-1.2.jar guava-33.4.0-jre.jar hilla-parser-jv
+ m-core-24.6.6.jar vaadin-text-field-flow-24.6.6.jar vaadin-side-nav-flo
+ w-24.6.6.jar tomcat-embed-el-10.1.11.jar batik-i18n-1.14.jar netty-code
+ c-xml-4.1.94.Final.jar h2-2.1.214.jar hilla-engine-core-24.6.6.jar jack
+ son-datatype-jdk8-2.15.2.jar swagger-core-2.2.26.jar commons-compress-1
+ .27.1.jar hilla-parser-jvm-plugin-model-24.6.6.jar netty-transport-nati
+ ve-epoll-4.1.94.Final-linux-aarch_64.jar vaadin-spring-boot-starter-24.
+ 6.6.jar netty-codec-mqtt-4.1.94.Final.jar spring-boot-starter-jdbc-3.1.
+ 2.jar spring-tx-6.0.11.jar batik-svg-dom-1.14.jar directory-watcher-0.1
+ 8.0.jar netty-handler-4.1.94.Final.jar netty-transport-native-epoll-4.1
+ .94.Final-linux-x86_64.jar vaadin-renderer-flow-24.6.6.jar netty-transp
+ ort-classes-kqueue-4.1.94.Final.jar vaadin-grid-flow-24.6.6.jar batik-a
+ nim-1.14.jar hilla-parser-jvm-plugin-transfertypes-24.6.6.jar vaadin-sp
+ lit-layout-flow-24.6.6.jar vaadin-checkbox-flow-24.6.6.jar spring-webso
+ cket-6.0.11.jar antlr4-runtime-4.10.1.jar vaadin-spring-24.6.6.jar vaad
+ in-combo-box-flow-24.6.6.jar batik-parser-1.14.jar hilla-engine-runtime
+ -24.6.6.jar vaadin-dev-24.6.6.jar netty-codec-smtp-4.1.94.Final.jar vaa
+ din-material-theme-24.6.6.jar HikariCP-5.0.1.jar netty-handler-ssl-ocsp
+ -4.1.94.Final.jar spring-context-6.0.11.jar vaadin-flow-components-base
+ -24.6.6.jar hibernate-core-6.2.6.Final.jar vaadin-date-time-picker-flow
+ -24.6.6.jar spring-beans-6.0.11.jar jakarta.validation-api-3.0.2.jar sp
+ ring-boot-devtools-3.1.2.jar error_prone_annotations-2.36.0.jar jul-to-
+ slf4j-2.0.7.jar ph-css-7.0.3.jar netty-codec-4.1.94.Final.jar jackson-a
+ nnotations-2.15.2.jar vaadin-progress-bar-flow-24.6.6.jar log4j-api-2.2
+ 0.0.jar vaadin-map-flow-24.6.6.jar vaadin-ordered-layout-flow-24.6.6.ja
+ r txw2-4.0.3.jar javassist-3.30.2-GA.jar slf4j-api-2.0.7.jar flow-push-
+ 24.6.6.jar ui-tests-1.1.1.jar netty-resolver-dns-4.1.94.Final.jar throw
+ -if-servlet3-1.0.2.jar jakarta.activation-api-2.1.2.jar spring-web-6.0.
+ 11.jar istack-commons-runtime-4.1.2.jar xmlgraphics-commons-2.6.jar spr
+ ing-orm-6.0.11.jar fontbox-2.0.4.jar vaadin-context-menu-flow-24.6.6.ja
+ r batik-awt-util-1.14.jar logback-classic-1.4.8.jar vaadin-date-picker-
+ flow-24.6.6.jar spring-webmvc-6.0.11.jar tomcat-embed-core-10.1.11.jar 
+ jakarta.inject-api-2.0.1.jar batik-svggen-1.14.jar vaadin-24.6.6.jar ne
+ tty-codec-http-4.1.94.Final.jar netty-codec-redis-4.1.94.Final.jar reac
+ tor-core-3.5.8.jar flow-server-24.6.6.jar netty-transport-sctp-4.1.94.F
+ inal.jar spring-boot-starter-3.1.2.jar asm-9.7.1.jar line-awesome-2.0.0
+ .jar jackson-core-2.15.2.jar spring-data-jpa-3.1.2.jar jakarta.persiste
+ nce-api-3.1.0.jar javaparser-symbol-solver-core-3.26.2.jar micrometer-o
+ bservation-1.11.2.jar spring-boot-starter-logging-3.1.2.jar spring-boot
+ -starter-data-jpa-3.1.2.jar netty-transport-native-kqueue-4.1.94.Final-
+ osx-aarch_64.jar vaadin-tabs-flow-24.6.6.jar spring-boot-starter-tomcat
+ -3.1.2.jar jackson-dataformat-yaml-2.15.2.jar hilla-parser-jvm-plugin-s
+ ubtypes-24.6.6.jar vaadin-dialog-flow-24.6.6.jar vaadin-dev-bundle-24.6
+ .6.jar batik-xml-1.14.jar reactor-netty-core-1.1.9.jar vaadin-messages-
+ flow-24.6.6.jar hilla-parser-jvm-plugin-nonnull-24.6.6.jar classmate-1.
+ 5.1.jar netty-transport-native-kqueue-4.1.94.Final-osx-x86_64.jar jacks
+ on-module-parameter-names-2.15.2.jar netty-codec-http2-4.1.94.Final.jar
+  spring-boot-starter-json-3.1.2.jar tomcat-embed-websocket-10.1.11.jar 
+ spring-boot-3.1.2.jar vaadin-virtual-list-flow-24.6.6.jar swagger-model
+ s-2.2.26.jar batik-script-1.14.jar vaadin-select-flow-24.6.6.jar netty-
+ codec-stomp-4.1.94.Final.jar commons-text-1.12.0.jar oshi-core-6.6.5.ja
+ r netty-codec-memcache-4.1.94.Final.jar android-json-0.0.20131108.vaadi
+ n1.jar netty-incubator-codec-classes-quic-0.0.48.Final.jar aspectjweave
+ r-1.9.19.jar spring-aspects-6.0.11.jar reflections-0.10.2.jar vaadin-cr
+ ud-flow-24.6.6.jar vaadin-core-internal-24.6.6.jar vaadin-confirm-dialo
+ g-flow-24.6.6.jar xml-apis-ext-1.3.04.jar jackson-databind-2.15.2.jar v
+ aadin-lumo-theme-24.6.6.jar jakarta.xml.bind-api-4.0.0.jar nimbus-jose-
+ jwt-9.37.3.jar atmosphere-runtime-3.0.5.slf4jvaadin1.jar hilla-dev-24.6
+ .6.jar jakarta.annotation-api-2.1.1.jar jsoup-1.18.1.jar reactor-netty-
+ http-1.1.9.jar vaadin-core-components-24.6.6.jar spring-core-6.2.3.jar 
+ netty-common-4.1.94.Final.jar batik-constants-1.14.jar netty-transport-
+ udt-4.1.94.Final.jar vaadin-login-flow-24.6.6.jar gwt-elemental-2.8.2.v
+ aadin2.jar listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.j
+ ar vaadin-time-picker-flow-24.6.6.jar vaadin-rich-text-editor-flow-24.6
+ .6.jar vaadin-field-highlighter-flow-24.6.6.jar classgraph-4.8.146.jar 
+ pdfbox-2.0.4.jar reactor-netty-1.1.9.jar serializer-2.7.2.jar vaadin-me
+ nu-bar-flow-24.6.6.jar commons-fileupload2-core-2.0.0-M1.jar xalan-2.7.
+ 2.jar hilla-endpoint-24.6.6.jar commons-configuration2-2.11.0.jar sprin
+ g-boot-starter-aop-3.1.2.jar ph-commons-11.1.8.jar flow-client-24.6.6.j
+ ar gentyref-1.2.0.vaadin1.jar jaxb-runtime-4.0.3.jar vaadin-avatar-flow
+ -24.6.6.jar hibernate-commons-annotations-6.0.6.Final.jar spring-jcl-6.
+ 0.11.jar javaparser-core-3.26.2.jar collaboration-engine-6.4.0.jar micr
+ ometer-commons-1.11.2.jar vaadin-board-flow-24.6.6.jar failureaccess-1.
+ 0.2.jar spring-boot-starter-validation-3.1.2.jar netty-incubator-codec-
+ native-quic-0.0.48.Final-linux-x86_64.jar netty-resolver-dns-native-mac
+ os-4.1.94.Final-osx-x86_64.jar vaadin-icons-flow-24.6.6.jar batik-dom-1
+ .14.jar jspecify-1.0.0.jar netty-handler-proxy-4.1.94.Final.jar hilla-2
+ 4.6.6.jar vaadin-charts-flow-24.6.6.jar commons-fileupload2-jakarta-2.0
+ .0-M1.jar license-checker-1.13.3.jar spring-boot-starter-web-3.1.2.jar 
+ vaadin-form-layout-flow-24.6.6.jar batik-util-1.14.jar spring-data-comm
+ ons-3.1.2.jar vaadin-notification-flow-24.6.6.jar spring-security-core-
+ 6.1.2.jar jaxb-core-4.0.3.jar batik-transcoder-1.14.jar vaadin-button-f
+ low-24.6.6.jar jboss-logging-3.5.3.Final.jar vaadin-dev-server-24.6.6.j
+ ar logback-core-1.4.8.jar copilot-24.6.6.jar hilla-parser-jvm-utils-24.
+ 6.6.jar netty-transport-native-unix-common-4.1.94.Final.jar spring-jdbc
+ -6.0.11.jar spring-expression-6.0.11.jar vaadin-details-flow-24.6.6.jar
+  vaadin-grid-pro-flow-24.6.6.jar angus-activation-2.0.1.jar hibernate-v
+ alidator-8.0.1.Final.jar vaadin-app-layout-flow-24.6.6.jar jackson-data
+ type-jsr310-2.15.2.jar vaadin-popover-flow-24.6.6.jar vaadin-radio-butt
+ on-flow-24.6.6.jar jcip-annotations-1.0.0.jar batik-css-1.14.jar vaadin
+ -core-24.6.6.jar netty-codec-dns-4.1.94.Final.jar swagger-annotations-2
+ .2.26.jar vaadin-cookie-consent-flow-24.6.6.jar xml-apis-1.4.01.jar spr
+ ing-boot-autoconfigure-3.1.2.jar vaadin-upload-flow-24.6.6.jar flow-rea
+ ct-24.6.6.jar netty-all-4.1.94.Final.jar vaadin-dashboard-flow-24.6.6.j
+ ar netty-codec-haproxy-4.1.94.Final.jar hilla-parser-jvm-plugin-backbon
+ e-24.6.6.jar vaadin-accordion-flow-24.6.6.jar open-8.5.0.4.jar vaadin-l
+ ist-box-flow-24.6.6.jar commons-codec-1.15.jar commons-io-2.18.0.jar ba
+ tik-bridge-1.14.jar netty-resolver-dns-native-macos-4.1.94.Final-osx-aa
+ rch_64.jar commons-lang3-3.12.0.jar netty-buffer-4.1.94.Final.jar jna-p
+ latform-5.15.0.jar log4j-to-slf4j-2.20.0.jar jsr305-3.0.2.jar vaadin-in
+ ternal-24.6.6.jar netty-transport-rxtx-4.1.94.Final.jar netty-transport
+ -classes-epoll-4.1.94.Final.jar reactive-streams-1.0.4.jar netty-resolv
+ er-4.1.94.Final.jar jna-5.15.0.jar netty-resolver-dns-classes-macos-4.1
+ .94.Final.jar flow-lit-template-24.6.6.jar jandex-3.0.5.jar j2objc-anno
+ tations-3.0.0.jar netty-transport-4.1.94.Final.jar hilla-runtime-plugin
+ -transfertypes-24.6.6.jar jakarta.transaction-api-2.0.1.jar vaadin-cust
+ om-field-flow-24.6.6.jar checker-qual-3.43.0.jar byte-buddy-1.14.5.jar 
+ snakeyaml-1.33.jar spring-aop-6.0.11.jar flow-html-components-24.6.6.ja
+ r flow-dnd-24.6.6.jar netty-codec-socks-4.1.94.Final.jar flow-data-24.6
+ .6.jar batik-ext-1.14.jar reactor-netty-incubator-quic-0.1.9.jar spring
+ -security-crypto-6.1.2.jar batik-shared-resources-1.14.jar batik-gvt-1.
+ 14.jar
+

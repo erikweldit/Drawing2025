@@ -1,0 +1,124 @@
+package com.example.application.zoomdb;
+
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.router.Route;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Scanner;
+@Route("admindb")
+@Component
+public class AdminDB implements CommandLineRunner {
+
+    private final SvgImageRepository repository;
+
+    @Autowired
+    public AdminDB(SvgImageRepository repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public void run(String... args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("== AdminDB meny ==");
+        while (true) {
+            System.out.println("\n1. Last opp SVG-fil");
+            System.out.println("2. Soek etter SVG (navn/id/userId)");
+            System.out.println("3. Slett alle med userId");
+            System.out.println("4. List alle for userId");
+            System.out.println("5. Avslutt");
+            System.out.print("Valg: ");
+            String valg = scanner.nextLine();
+
+            switch (valg) {
+                case "1" -> lastOppSvg(scanner);
+                case "2" -> soekEtterSvg(scanner);
+                case "3" -> slettEtterUserId(scanner);
+                case "4" -> listAlleForUserId(scanner);
+                case "5" -> {
+                    System.out.println("Avslutter AdminDB.");
+              //      UI.getCurrent().getPage().setLocation("home");
+                    //       new MainView(@Autowired SvgImageRepository repository);
+                    return;
+                }
+                default -> System.out.println("Ugyldig valg.");
+            }
+        }
+    }
+
+    private void lastOppSvg(Scanner scanner) {
+        try {
+            System.out.print("Filsti: ");
+            Path path = Path.of(scanner.nextLine());
+            System.out.print("User ID: ");
+            String userId = scanner.nextLine();
+            System.out.print("Filnavn: ");
+            String name = scanner.nextLine();
+
+            String content = Files.readString(path);
+            SvgImage svg = new SvgImage();
+            svg.setUserId(userId);
+            svg.setName(name);
+            svg.setContent(content);
+            svg.setCreatedAt(LocalDateTime.now());
+            repository.save(svg);
+            System.out.println("SVG lastet opp.");
+        } catch (Exception e) {
+            System.out.println("Feil: " + e.getMessage());
+        }
+    }
+
+    private void soekEtterSvg(Scanner scanner) {
+        System.out.print("Skriv inn navn/id/userId: ");
+        String input = scanner.nextLine();
+
+        try {
+            SvgImage found = repository.findById(Long.parseLong(input)).orElse(null);
+            if (found == null) {
+                List<SvgImage> results = repository.findByUserId(input);
+                if (results.isEmpty()) results = repository.findByNameContainingIgnoreCase(input);
+                results.forEach(img -> System.out.println(" - " + img.getId() + " | " + img.getName() + " | " + img.getUserId()));
+            } else {
+                System.out.println("SVG:\n" + found.getContent());
+            }
+        } catch (NumberFormatException e) {
+            List<SvgImage> results = repository.findByUserId(input);
+            if (results.isEmpty()) results = repository.findByNameContainingIgnoreCase(input);
+            results.forEach(img -> System.out.println(" - " + img.getId() + " | " + img.getName() + " | " + img.getUserId()));
+        }
+    }
+
+    private void slettEtterUserId(Scanner scanner) {
+        System.out.print("Skriv inn userId: ");
+        String userId = scanner.nextLine();
+        List<SvgImage> toDelete = repository.findByUserId(userId);
+        if (toDelete.isEmpty()) {
+            System.out.println("Ingen funnet for userId.");
+            return;
+        }
+        repository.deleteAll(toDelete);
+        System.out.println(toDelete.size() + " SVG-er slettet.");
+    }
+
+    private void listAlleForUserId(Scanner scanner) {
+        System.out.print("Skriv inn userId: ");
+        String userId = scanner.nextLine();
+        List<SvgImage> results = repository.findByUserId(userId);
+        if (results.isEmpty()) {
+            System.out.println("Ingen SVG-er funnet.");
+        } else {
+            results.forEach(img -> System.out.println(" - " + img.getId() + " | " + img.getName() + " | " + img.getCreatedAt()));
+        }
+    }
+
+
+
+
+}
+
+

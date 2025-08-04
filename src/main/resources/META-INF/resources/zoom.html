@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button onclick="zoomIn()">Zoom In</button>
+<button onclick="zoomOut()">Zoom Out</button>
+
+<script>
+    let scale = 1;
+    function zoomIn() {
+        scale *= 1.2;
+        document.getElementById('mysvg').setAttribute('viewBox', `0 0 ${1000 / scale} ${1000 / scale}`);
+    }
+    function zoomOut() {
+        scale /= 1.2;
+        document.getElementById('mysvg').setAttribute('viewBox', `0 0 ${1000 / scale} ${1000 / scale}`);
+    }
+</script>
+</body>
+</html>
