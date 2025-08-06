@@ -132,6 +132,10 @@ public class ZoomMenue extends AppLayout {   //  extends AppLayout
         myButtonSymbol.addClassName("my-button");
         myButtonSymbol.addClickListener(click -> { UI.getCurrent().getPage().setLocation("zoommenue3");  } );
 
+        Button     myIdent = new Button("New name");
+        myIdent.addClassName("my-button");
+        myIdent.addClickListener(click -> { UI.getCurrent().getPage().setLocation("NewIdent"); } );
+
         Button myButtonWeld = new Button("Weld symbol");
         myButtonWeld.addClassName("my-button");
         myButtonWeld.addClickListener(click -> { UI.getCurrent().getPage().setLocation("symbol");  } );
@@ -150,7 +154,7 @@ public class ZoomMenue extends AppLayout {   //  extends AppLayout
         // Legg menyvalgene i en horisontal layout
         if (CalcValues.plotType.equals("butt") || CalcValues.plotType.equals("Butt")) {
             HorizontalLayout menuBar = new HorizontalLayout(imga, home, myButttonDraw, myButtonMove, myButtonDelete, myButtonSymbol,
-                    myButtonLine, myButtonWeld, myButtonZoom, myTransfer, myButtonCut, myButtonPlace34);
+                    myButtonLine, myIdent, myButtonWeld, myButtonZoom, myTransfer, myButtonCut, myButtonPlace34);
             menuBar.setSpacing(true);
             HorizontalLayout header = new HorizontalLayout(title, menuBar);
             header.setWidthFull();
@@ -160,7 +164,7 @@ public class ZoomMenue extends AppLayout {   //  extends AppLayout
             addToNavbar(header); // Legger det til i toppen
         } else {
             HorizontalLayout menuBar = new HorizontalLayout(imga, home, myButttonDraw, myButtonMove, myButtonDelete, myButtonSymbol,
-                    myButtonLine, myButtonWeld, myButtonZoom, myTransfer, myButtonCut );
+                    myButtonLine, myIdent , myButtonWeld, myButtonZoom, myTransfer, myButtonCut );
             menuBar.setSpacing(true);
             HorizontalLayout header = new HorizontalLayout(title, menuBar);
             header.setWidthFull();

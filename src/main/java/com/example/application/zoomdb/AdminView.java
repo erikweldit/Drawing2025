@@ -31,21 +31,21 @@ public class AdminView extends VerticalLayout {
         setPadding(true);
 
         if (user.equals("admin")) {
-            userIdField.setPlaceholder("Skriv inn bruker-ID");
-            Button refreshButton = new Button("Last galleri", e ->
+            userIdField.setPlaceholder("Write in user-ID");
+            Button refreshButton = new Button("Upload gallery", e ->
                     refreshGallery());
-            Button deleteOldButton = new Button("Slett filer eldre enn 4 uker", e -> {
+            Button deleteOldButton = new Button("Delete files older than 4 weeks", e -> {
                 adminService.deleteOlderThanFourWeeks();
                 refreshGallery();
             });
 
             HorizontalLayout controls = new HorizontalLayout(userIdField, refreshButton, deleteOldButton);
-            add(controls, new Span("Galleri for bruker:"), galleryLayout);
+            add(controls, new Span("Gallery for user:"), galleryLayout);
         }  else {
 
             userIdField.setValue(user);
             HorizontalLayout controls = new HorizontalLayout(userIdField);
-            add(controls, new Span("Galleri for bruker:"), galleryLayout);
+            add(controls, new Span("Gallery for user:"), galleryLayout);
             refreshGallery();
         }
 

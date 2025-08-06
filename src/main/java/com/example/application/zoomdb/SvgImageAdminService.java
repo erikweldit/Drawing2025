@@ -48,7 +48,7 @@ public class SvgImageAdminService extends HorizontalLayout {
                         try {
                             return img.getCreatedAt().isBefore(cutoff);
                         } catch (Exception e) {
-                            System.err.println("Feil ved henting av createdAt for bilde med ID: " + img.getId());
+                            System.err.println("Error retrieving createdAt for image with ID: " + img.getId());
                             return false;
                         }
                     })
@@ -56,13 +56,13 @@ public class SvgImageAdminService extends HorizontalLayout {
 
             if (!oldImages.isEmpty()) {
                 repository.deleteAll(oldImages);
-                System.out.println("Slettet " + oldImages.size() + " SVG-bilder eldre enn 4 uker.");
+                System.out.println("Deleted " + oldImages.size() + " SVG images older than 4 weeks.");
             } else {
-                System.out.println("Ingen bilder eldre enn 4 uker ble funnet.");
+                System.out.println("No images older than 4 weeks found.");
             }
 
         } catch (Exception e) {
-            System.err.println("Feil under sletting av gamle bilder: " + e.getMessage());
+            System.err.println("Error deleting old images: " + e.getMessage());
             e.printStackTrace();
         }
     }

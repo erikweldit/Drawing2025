@@ -1,7 +1,38 @@
-# Flow CRM Tutorial
+# Weld string
 
-This project can be used as a starting point to create your own Vaadin application with Spring Boot.
+This project are been used as a starting point to create our own Vaadin application with Spring Boot.
 It contains all the necessary configuration and some placeholder files to get you started.
+
+## Application based on this Vaadin start point: Flow CRM tutorial
+The project is a multiuser project and start with /start/userid and stop by /logout/userid. 
+All images and weld string are generated under that actual userid. If you start it without this commando
+you will get standard userID for al users. It is meaning that this userid is the same userid as used in Weldit system
+and is given automatic when the system are integrated.
+
+There are many Java classes in this collection which are not yet an integrated part of the application. 
+
+Project are based on Java 17.0.2, SpringBoot 3.1,2 , Vaadin Flow 24.6.6 , Maven 4.0.0. As IDE is IntelliJ IDEA 2024.3.4.
+
+The system are based on manipulation of svg-files and will as end product generate a .svg file send to an API in the Weldit system.
+System sending an API to https://weldit.weldit.no/api/images  This URL is given in method sendSvgToApi()
+in the Java-class MainViewSave.java  
+
+The API have to:
+- must be able to receive POST requests
+- must support application/x-www-form-urlencoded
+- understand name og svg or be customizable
+- response must return 2xx status code (200 OK or 201 Created)
+- URL must be accessible without errors
+
+In sending we are using:
+HttpHeaders headers = new HttpHeaders();
+headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+String body = "name" + fileName + "&svg" + URLEncoder.encode(svgContent,StandardCharsets.UFT_8);
+
+There has to be correct parameter name:
+name: the name for the file
+svg: the svg contents itself
 
 ## Running the application
 
@@ -30,19 +61,6 @@ Once the JAR file is built, you can run it using
 - `views` package in `src/main/java` contains the server-side Java views of your application.
 - `views` folder in `frontend/` contains the client-side JavaScript views of your application.
 - `themes` folder in `frontend/` contains the custom CSS styles.
-
-## Useful links
-
-- Read the documentation at [vaadin.com/docs](https://vaadin.com/docs).
-- Follow the tutorial at [vaadin.com/docs/latest/tutorial/overview](https://vaadin.com/docs/latest/tutorial/overview).
-- Create new projects at [start.vaadin.com](https://start.vaadin.com/).
-- Search UI components and their usage examples at [vaadin.com/docs/latest/components](https://vaadin.com/docs/latest/components).
-- View use case applications that demonstrate Vaadin capabilities at [vaadin.com/examples-and-demos](https://vaadin.com/examples-and-demos).
-- Build any UI without custom CSS by discovering Vaadin's set of [CSS utility classes](https://vaadin.com/docs/styling/lumo/utility-classes). 
-- Find a collection of solutions to common use cases at [cookbook.vaadin.com](https://cookbook.vaadin.com/).
-- Find add-ons at [vaadin.com/directory](https://vaadin.com/directory).
-- Ask questions on [Stack Overflow](https://stackoverflow.com/questions/tagged/vaadin) or join our [Discord channel](https://discord.gg/MYFq5RTbBn).
-- Report issues, create pull requests in [GitHub](https://github.com/vaadin).
 
 
 ## Deploying using Docker

@@ -27,12 +27,12 @@ public class AdminDB implements CommandLineRunner {
         Scanner scanner = new Scanner(System.in);
         System.out.println("== AdminDB meny ==");
         while (true) {
-            System.out.println("\n1. Last opp SVG-fil");
-            System.out.println("2. Soek etter SVG (navn/id/userId)");
-            System.out.println("3. Slett alle med userId");
-            System.out.println("4. List alle for userId");
-            System.out.println("5. Avslutt");
-            System.out.print("Valg: ");
+            System.out.println("\n1. Upload SVG file:");
+            System.out.println("2. Search for SVG (name/id/userId)");
+            System.out.println("3. Delete all with userId");
+            System.out.println("4. List all for userId");
+            System.out.println("5. Exit");
+            System.out.print("Select: ");
             String valg = scanner.nextLine();
 
             switch (valg) {
@@ -41,23 +41,23 @@ public class AdminDB implements CommandLineRunner {
                 case "3" -> slettEtterUserId(scanner);
                 case "4" -> listAlleForUserId(scanner);
                 case "5" -> {
-                    System.out.println("Avslutter AdminDB.");
+                    System.out.println("Finishing AdminDB.");
               //      UI.getCurrent().getPage().setLocation("home");
                     //       new MainView(@Autowired SvgImageRepository repository);
                     return;
                 }
-                default -> System.out.println("Ugyldig valg.");
+                default -> System.out.println("Invalid selection.");
             }
         }
     }
 
     private void lastOppSvg(Scanner scanner) {
         try {
-            System.out.print("Filsti: ");
+            System.out.print("File path: ");
             Path path = Path.of(scanner.nextLine());
             System.out.print("User ID: ");
             String userId = scanner.nextLine();
-            System.out.print("Filnavn: ");
+            System.out.print("Filname: ");
             String name = scanner.nextLine();
 
             String content = Files.readString(path);
@@ -67,14 +67,14 @@ public class AdminDB implements CommandLineRunner {
             svg.setContent(content);
             svg.setCreatedAt(LocalDateTime.now());
             repository.save(svg);
-            System.out.println("SVG lastet opp.");
+            System.out.println("SVG upload.");
         } catch (Exception e) {
-            System.out.println("Feil: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
     private void soekEtterSvg(Scanner scanner) {
-        System.out.print("Skriv inn navn/id/userId: ");
+        System.out.print("Write name/id/userId: ");
         String input = scanner.nextLine();
 
         try {
@@ -94,23 +94,23 @@ public class AdminDB implements CommandLineRunner {
     }
 
     private void slettEtterUserId(Scanner scanner) {
-        System.out.print("Skriv inn userId: ");
+        System.out.print("Write userId: ");
         String userId = scanner.nextLine();
         List<SvgImage> toDelete = repository.findByUserId(userId);
         if (toDelete.isEmpty()) {
-            System.out.println("Ingen funnet for userId.");
+            System.out.println("None found for userId.");
             return;
         }
         repository.deleteAll(toDelete);
-        System.out.println(toDelete.size() + " SVG-er slettet.");
+        System.out.println(toDelete.size() + " SVG deleted.");
     }
 
     private void listAlleForUserId(Scanner scanner) {
-        System.out.print("Skriv inn userId: ");
+        System.out.print("Write userId: ");
         String userId = scanner.nextLine();
         List<SvgImage> results = repository.findByUserId(userId);
         if (results.isEmpty()) {
-            System.out.println("Ingen SVG-er funnet.");
+            System.out.println("None found for SVG.");
         } else {
             results.forEach(img -> System.out.println(" - " + img.getId() + " | " + img.getName() + " | " + img.getCreatedAt()));
         }
