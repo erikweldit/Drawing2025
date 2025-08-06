@@ -1,4 +1,4 @@
-# Weld string
+git # Weld string
 
 This project are been used as a starting point to create our own Vaadin application with Spring Boot.
 It contains all the necessary configuration and some placeholder files to get you started.
