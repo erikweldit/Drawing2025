@@ -72,7 +72,7 @@ public class MainViewSave extends HorizontalLayout {
 
         VerticalLayout menu = new VerticalLayout();
         menu.setWidth("200px");
-        menu.getStyle().set("z-index", "10").set("background", "#666a70").set("color", "white");
+        menu.getStyle().set("z-index", "10").set("background", "#4e5d71").set("color", "white");  //  #4e5d71  #666a70
 
         Button home = new Button("Home");
         home.getStyle().set("color", "white");
