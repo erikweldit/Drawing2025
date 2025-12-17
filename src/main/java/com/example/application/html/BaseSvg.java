@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import com.example.application.zoomdb.SvgImageAdminService;
 import static com.example.application.zoomdb.SvgImageAdminService.repository;
+import com.vaadin.flow.server.VaadinSession;
 /**
  * write a svg file in H2 database
  *
@@ -37,7 +38,7 @@ public class BaseSvg  extends  AppLayout {   //  extends AppLayout   HorizontalL
 
 
     public BaseSvg() throws IOException, TranscoderException {
-        String username = GreetingComponent.userIdents;
+        String username = VaadinSession.getCurrent().getAttribute("tenantUser") != null ?            VaadinSession.getCurrent().getAttribute("tenantUser").toString() :            GreetingComponent.userIdents;
 
         new CalcValues();
         this.outSvg = CalcValues.outSvg;
@@ -47,8 +48,10 @@ public class BaseSvg  extends  AppLayout {   //  extends AppLayout   HorizontalL
         new DrawWeldSave();
         this.svgNew = CalcValues.svgNew;
         svgFile = outSvg + svgNew + svgSymbol + CalcValues.svgExtra + svgStop;
+        
+        System.out.println(" Draw type " + CalcValues.drawType + " for user " + CalcValues.userID);
 
-            fileName = CalcValues.pathName + generateFilename();
+            fileName = CalcValues.pathName  + CalcValues.drawType + '_' + generateFilename();
             String file = fileName + ".svg";
             String svgContent = svgFile;
 

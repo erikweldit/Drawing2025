@@ -92,11 +92,11 @@ public class TestCode {
                 int tall4 = last.length();
                 //		System.out.println("  svar:  " + value1 + " - " + value2+ " - " +value3);
                 //		System.out.println(i1 + " " + i2 + " "+ i3);
-                Integer iWrapper1 = new Integer(value1);
+                Integer iWrapper1 = Integer.valueOf(value1);
                 tall1 = iWrapper1;
-                Integer iWrapper2 = new Integer(value2);
+                Integer iWrapper2 = Integer.valueOf(value2);
                 tall2 = iWrapper2;
-                Integer iWrapper3 = new Integer(siste);
+                Integer iWrapper3 = Integer.valueOf(siste);
                 tall3 = iWrapper3;
 
             }

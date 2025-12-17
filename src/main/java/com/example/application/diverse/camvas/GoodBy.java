@@ -8,6 +8,7 @@ import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import java.util.ArrayList;
+import com.vaadin.flow.server.VaadinSession;
 
 @AnonymousAllowed
 @Route("logout")
@@ -23,7 +24,7 @@ public class GoodBy extends Div implements HasUrlParameter<String> {
 
         System.out.println(CalcValues.weldList.size());
         if (s.isEmpty()) {
-            s = GreetingComponent.userIdents;
+            s = VaadinSession.getCurrent().getAttribute("tenantUser") != null ?            VaadinSession.getCurrent().getAttribute("tenantUser").toString() :            GreetingComponent.userIdents;
         }
 
         for (int i = CalcValues.weldList.size()-1; i< 0 ; i--) {

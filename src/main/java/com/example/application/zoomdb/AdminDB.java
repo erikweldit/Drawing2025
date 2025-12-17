@@ -4,6 +4,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Files;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Scanner;
 @Route("admindb")
 @Component
+@Profile("dev")
 public class AdminDB implements CommandLineRunner {
 
     private final SvgImageRepository repository;
@@ -25,6 +27,13 @@ public class AdminDB implements CommandLineRunner {
     @Override
     public void run(String... args) {
         Scanner scanner = new Scanner(System.in);
+
+        // If there's no console input (e.g. in Docker), just skip this runner
+        if (!scanner.hasNextLine()) {
+            System.out.println("No console input available, skipping AdminDB.");
+            return;
+        }
+
         System.out.println("== AdminDB meny ==");
         while (true) {
             System.out.println("\n1. Upload SVG file:");
@@ -33,6 +42,12 @@ public class AdminDB implements CommandLineRunner {
             System.out.println("4. List all for userId");
             System.out.println("5. Exit");
             System.out.print("Select: ");
+
+            if (!scanner.hasNextLine()) {
+                System.out.println("No more input, exiting AdminDB.");
+                return;
+            }
+
             String valg = scanner.nextLine();
 
             switch (valg) {
@@ -42,14 +57,13 @@ public class AdminDB implements CommandLineRunner {
                 case "4" -> listAlleForUserId(scanner);
                 case "5" -> {
                     System.out.println("Finishing AdminDB.");
-              //      UI.getCurrent().getPage().setLocation("home");
-                    //       new MainView(@Autowired SvgImageRepository repository);
                     return;
                 }
                 default -> System.out.println("Invalid selection.");
             }
         }
     }
+
 
     private void lastOppSvg(Scanner scanner) {
         try {

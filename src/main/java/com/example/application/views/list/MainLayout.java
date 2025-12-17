@@ -19,7 +19,8 @@ import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.theme.lumo.LumoUtility;
-
+import com.vaadin.flow.server.VaadinSession;
+import com.vaadin.flow.component.UI;
 /**
  * The main view is a top-level placeholder for other views.
  */
@@ -27,7 +28,22 @@ import com.vaadin.flow.theme.lumo.LumoUtility;
 public class MainLayout extends AppLayout {
     public static boolean imageGenerated = false;
     private H2 viewTitle;
+    private final Span apiResponse = new Span();
     public MainLayout() {
+
+        UI ui = UI.getCurrent();
+        VaadinSession session = VaadinSession.getCurrent();
+        String tenantId = (String) session.getAttribute("tenantId");
+        String userId   = (String) session.getAttribute("userId");
+        if (tenantId == null || tenantId.isBlank() || userId == null || userId.isBlank()) {
+            if (ui != null) {
+                ui.access(() -> apiResponse.setText(
+                        "⚠️ Tenant ID or User ID missing! Please reload with ?tenant=xxx&user_id=yyy"
+                ));
+            }
+           UI.getCurrent().getPage().setLocation("accessdenied");
+            return;
+        }
 
 
         Div div = new Div();
@@ -149,7 +165,9 @@ public class MainLayout extends AppLayout {
     @Override
     protected void afterNavigation() {
         super.afterNavigation();
-        viewTitle.setText(getCurrentPageTitle());
+        if (viewTitle != null) {
+            viewTitle.setText(getCurrentPageTitle());
+        }
     }
     private String getCurrentPageTitle() {
         PageTitle title = getContent().getClass().getAnnotation(PageTitle.class);

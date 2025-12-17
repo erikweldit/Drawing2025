@@ -8,7 +8,7 @@ import com.example.application.under.*;
 import com.vaadin.flow.component.UI;
 import java.util.ArrayList;
 import java.util.List;
-
+import com.vaadin.flow.server.VaadinSession;
 /**
  * class collecting the object used i drawing
  * Give information of the different object and are used for testing
@@ -96,7 +96,7 @@ if (CalcValues.bufferId[4] > 0 || CalcValues.bufferId[7] > 0){
     CalcValues.bufferId[6] = 0;
     CalcValues.bufferId[7] = 0;
 }
-        if ( (CalcValues.userID.equals(GreetingComponent.userIdents))) {
+        if ( (CalcValues.userID.equals(VaadinSession.getCurrent().getAttribute("tenantUser") != null ?            VaadinSession.getCurrent().getAttribute("tenantUser").toString() :            GreetingComponent.userIdents))) {
             new MakeMovePossible();
        //     new ActualString();
         //   new DrawWeldinnString();

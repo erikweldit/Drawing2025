@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.*;
-
+import com.vaadin.flow.server.VaadinSession;
 /**
  * Calculating of the object for the different drawing types such as text, line, circle ol
  *
@@ -332,6 +332,7 @@ public class CalcValues  {
     public static List<ExtraTall> actualMoveString = new ArrayList<>();
     public static List<Long> actualSaved = new ArrayList<>();
     public static List<ExtraTall> actualMoveStringNew = new ArrayList<>();
+    public static String drawType ="";
     ////////////////////////
 
     /**
@@ -376,9 +377,10 @@ public class CalcValues  {
         startValue = 96;
         numberOfSymbols = 0;
         CalcValues.svgSymbol = "";
-        userID = GreetingComponent.userIdents;
+        userID =  VaadinSession.getCurrent().getAttribute("tenantUser") != null ?            VaadinSession.getCurrent().getAttribute("tenantUser").toString() :            GreetingComponent.userIdents;
         pathName = "C:\\" + userID + "\\";
         pathName =  userID + "_" ;
+        drawType = plotType;
         new ImageStorage();
 
         //      System.out.println(userID);

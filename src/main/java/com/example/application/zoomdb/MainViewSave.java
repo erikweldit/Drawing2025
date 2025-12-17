@@ -25,17 +25,22 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
-
+import com.vaadin.flow.server.VaadinSession;
+import com.example.application.tenant.TenantUrlService;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 @Route("lastviewsave")
 @PermitAll
 //@CssImport("./styles/shared-styles.css")
 public class MainViewSave extends HorizontalLayout {
-
+    private final TenantUrlService tenantUrlService;
     private final SvgImageRepository repository;
-    private final String currentUser = GreetingComponent.userIdents;
+    private final String currentUser = VaadinSession.getCurrent().getAttribute("tenantUser") != null ?            VaadinSession.getCurrent().getAttribute("tenantUser").toString() :            GreetingComponent.userIdents;
     private final Div canvas = new Div();
     private final Div gallery = new Div();
+    private final Div svg_name = new Div();
     private final Input rotationInput = new Input();
     private final Button rotateButton = new Button("Rotate selected image");
     private final Span apiResponse = new Span();
@@ -43,8 +48,9 @@ public class MainViewSave extends HorizontalLayout {
     HorizontalLayout menuBar = new HorizontalLayout();
     private boolean eraserMode = false;
 
-    public MainViewSave(@Autowired SvgImageRepository repository) {
+    public MainViewSave(@Autowired SvgImageRepository repository, TenantUrlService tenantUrlService) {
         this.repository = repository;
+        this.tenantUrlService = tenantUrlService;
         setSizeFull();
         //     addClassName(LumoUtility.Background.CONTRAST_5);
         //       addClassName("menu-color");
@@ -63,6 +69,10 @@ public class MainViewSave extends HorizontalLayout {
         canvas.setId("svg-canvas");
         canvas.getElement().setProperty("innerHTML", "<svg id=\"main-canvas\" width=\"1200\" height=\"860\" viewBox=\"0 0 1200 860\" xmlns=\"http://www.w3.org/2000/svg\"><g id=\"zoom-group\"></g></svg>");
         add(canvas);
+
+        svg_name.getStyle().set("display", "none");
+        svg_name.setId("svg-canvas-name");
+        add(svg_name);
 
         refreshGallery();
     }
@@ -299,6 +309,10 @@ public class MainViewSave extends HorizontalLayout {
     }
 
     private void addToCanvas(SvgImage svg) {
+        // Show SVG name in the div
+        svg_name.setText(svg.getName());
+        // svg_name.getStyle().set("display", "block");
+
         UI.getCurrent().getPage().executeJs("""
                     const group = document.getElementById('zoom-group');
                     const parser = new DOMParser();
@@ -365,7 +379,6 @@ public class MainViewSave extends HorizontalLayout {
                     }
                     group.appendChild(wrapper);
                 """, svg.getContent());
-
     }
 
     private Upload createUploadComponent() {
@@ -401,6 +414,7 @@ public class MainViewSave extends HorizontalLayout {
                 .sorted(Comparator.comparing(SvgImage::getCreatedAt).reversed())
                 .limit(5)
                 .forEach(svg -> {
+                    System.out.println("SVG Name: " + svg.getName());
                     StreamResource resource = new StreamResource(svg.getName(), () -> new ByteArrayInputStream(svg.getContent().getBytes(StandardCharsets.UTF_8)));
                     Image img = new Image(resource, svg.getName());
                     img.setWidth("200px");
@@ -523,25 +537,79 @@ public class MainViewSave extends HorizontalLayout {
         UI.getCurrent().getPage().executeJs("""
                     const svg = document.getElementById('main-canvas');
                     if (!svg) return;
+                     const svg_name = document.getElementById('svg-canvas-name');
                     const clone = svg.cloneNode(true);
                     clone.removeAttribute('id');
                     clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
                 
                     const serializer = new XMLSerializer();
                     const content = serializer.serializeToString(clone);
-                    $0.$server.sendSvgToApi(content);
+                    $0.$server.sendSvgToApi(content, svg_name.textContent);
                 """, getElement());
     }
 
     @ClientCallable
-    public void sendSvgToApi(String content) {
+    public void sendSvgToApi(String content, String svgName) {
         try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_XML);
-            HttpEntity<String> request = new HttpEntity<>(content, headers);
-            RestTemplate restTemplate = new RestTemplate();
-            ResponseEntity<String> response = restTemplate.postForEntity("https://weldit.weldit.no/api/images", request, String.class);
             UI ui = UI.getCurrent();
+            VaadinSession session = VaadinSession.getCurrent();
+            String tenantId = (String) session.getAttribute("tenantId");
+            String userId   = (String) session.getAttribute("userId");
+            String wpqrId   = (String) session.getAttribute("wpqrId");
+            if (content == null || content.isBlank() || content.getBytes(StandardCharsets.UTF_8).length <= 115) {
+                if (ui != null) {
+                    ui.access(() -> apiResponse.setText("⚠️ SVG content is empty! Nothing to send."));
+                }
+                return;
+            }
+            if (tenantId == null || tenantId.isBlank() || userId == null || userId.isBlank()) {
+                if (ui != null) {
+                    ui.access(() -> apiResponse.setText(
+                            "⚠️ Tenant ID or User ID missing! Please reload with ?tenant=xxx&user_id=yyy"
+                    ));
+                }
+                return;  // ❗ STOP: don't continue to send to API
+            }
+            // HttpHeaders headers = new HttpHeaders();
+            // headers.setContentType(MediaType.APPLICATION_XML);
+            // HttpEntity<String> request = new HttpEntity<>(content, headers);
+            // RestTemplate restTemplate = new RestTemplate();
+            // VaadinSession session = VaadinSession.getCurrent();
+            // String tenantId = (String) session.getAttribute("tenantId");
+            // String userId   = (String) session.getAttribute("userId");
+            // body.add("tenantId", tenantId);
+            // body.add("userId", userId);
+            // String url = tenantUrlService.buildTenantApiUrl(tenantId);
+            // System.out.println("Posting SVG to: " + url + " for user " + userId);
+            // ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+            // 🔑 Tell Nginx which tenant we want
+            String hostHeader = tenantUrlService.buildTenantHostHeader(tenantId);
+            headers.set("Host", hostHeader);   // e.g. demo.kjwlocal.com
+            headers.set("x-tenant-name", tenantId);  
+            headers.set("x-api-token", tenantUrlService.getDrawingApiToken(tenantId)); // token to access the web app
+
+            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+            body.add("file", new ByteArrayResource(content.getBytes(StandardCharsets.UTF_8)) {
+                @Override
+                public String getFilename() {
+                    return svgName != null && !svgName.isEmpty() ? svgName : tenantId +'_'+ userId + "_" + System.currentTimeMillis() + ".svg";
+                }
+            });
+            body.add("tenantId", tenantId);
+            body.add("userId", userId);
+            body.add("wpqrId", wpqrId != null ? wpqrId : "");
+
+            HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(body, headers);
+            RestTemplate restTemplate = new RestTemplate();
+
+            // ✅ build URL from properties instead of hardcoding .weldit.local/api/images
+            String url = tenantUrlService.buildTenantApiUrl(tenantId);
+            System.out.println("Posting SVG to: " + url + " for user " + userId + " tenant " + tenantId + " wpqrId " + wpqrId   );
+
+            ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
             if (ui != null) {
                 ui.access(() -> apiResponse.setText("Respons from API: " + response.getStatusCode()));
             }

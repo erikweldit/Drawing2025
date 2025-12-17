@@ -9,7 +9,7 @@ import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import java.util.ArrayList;
 import java.util.List;
-
+import com.vaadin.flow.server.VaadinSession;
 /**
  * Class for manipulation of images in storages
  * System gives up to 4 images in store on the same page
@@ -59,14 +59,14 @@ public class ImageStorage {
         if (imageList.isEmpty()) {
             //       ExtraImage im0 = new ExtraImage("unKnownUser");
             //      imageList.add(im0);
-            ExtraImage im = new ExtraImage(GreetingComponent.userIdents);
+            ExtraImage im = new ExtraImage(VaadinSession.getCurrent().getAttribute("tenantUser") != null ?            VaadinSession.getCurrent().getAttribute("tenantUser").toString() :            GreetingComponent.userIdents);
             imageList.add(im);
             userIndex = 0;
             // undersøk om userid er registrert
         } else {
             for (int i = 0; i < imageList.size(); i++) {
                 ExtraImage tt = imageList.get(i);
-                if (tt.getUserID().equals(GreetingComponent.userIdents)) {
+                if (tt.getUserID().equals(VaadinSession.getCurrent().getAttribute("tenantUser") != null ?            VaadinSession.getCurrent().getAttribute("tenantUser").toString() :            GreetingComponent.userIdents)) {
                     // denne bruker er registret allerede
                     userIndex = i;
                     registrert = true;
@@ -77,7 +77,7 @@ public class ImageStorage {
         // registrerer en ny bruker
         if (!registrert) {
             userIndex = imageList.size();
-            ExtraImage imm = new ExtraImage(GreetingComponent.userIdents);
+            ExtraImage imm = new ExtraImage(VaadinSession.getCurrent().getAttribute("tenantUser") != null ?            VaadinSession.getCurrent().getAttribute("tenantUser").toString() :            GreetingComponent.userIdents);
             imageList.add(userIndex, imm);
         }
 

@@ -1,6 +1,8 @@
 package com.example.application.zoomdb;
-import com.example.application.diverse.canvas.GreetingComponent;
-import com.example.aplication.weld.CalcValues;
+
+import com.example.application.tenant.TenantSendService;
+import com.example.application.diverse.camvas.GreetingComponent;
+import com.example.application.weld.CalcValues;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.ClientCallable;
 import com.vaadin.flow.component.UI;
@@ -31,22 +33,24 @@ import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
+import com.vaadin.flow.server.VaadinSession;
 
 @Route("lastview")
 @PermitAll
 @CssImport("./styles/shared-styles.css")
 public class MainView extends HorizontalLayout {
-
+    private final TenantSendService tenantSendService;
     private final SvgImageRepository repository;
-    private final String currentUser = "UserID";
+    private final String currentUser = VaadinSession.getCurrent().getAttribute("tenantUser") != null ?            VaadinSession.getCurrent().getAttribute("tenantUser").toString() :            GreetingComponent.userIdents;
     private final Div canvas = new Div();
     private final Div gallery = new Div();
     private final Input rotationInput = new Input();
     private final Button rotateButton = new Button("Roter valgt");
     private final Span apiResponse = new Span();
 
-    public MainView(@Autowired SvgImageRepository repository) {
+    public MainView(@Autowired SvgImageRepository repository, TenantSendService tenantSendService) {
         this.repository = repository;
+        this.tenantSendService = tenantSendService;
         setSizeFull();
         createMenu();
 

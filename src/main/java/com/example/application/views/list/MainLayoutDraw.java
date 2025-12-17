@@ -27,8 +27,8 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.theme.lumo.LumoUtility;
-
-
+import com.vaadin.flow.server.VaadinSession;
+import com.vaadin.flow.component.UI;
 import java.util.ArrayList;
 
 //import static org.vaadin.example.weld.ImageStorage.inBuffer;
@@ -45,7 +45,24 @@ public class MainLayoutDraw extends AppLayout {
     private String userID = CalcValues.userID;
     Image imga;
     int index = 9;
+    private final Span apiResponse = new Span();
     public MainLayoutDraw() {
+
+        UI ui = UI.getCurrent();
+        VaadinSession session = VaadinSession.getCurrent();
+        String tenantId = (String) session.getAttribute("tenantId");
+        String userId   = (String) session.getAttribute("userId");
+        if (tenantId == null || tenantId.isBlank() || userId == null || userId.isBlank()) {
+            if (ui != null) {
+                ui.access(() -> apiResponse.setText(
+                        "⚠️ Tenant ID or User ID missing! Please reload with ?tenant=xxx&user_id=yyy"
+                ));
+            }
+            UI.getCurrent().getPage().setLocation("accessdenied");
+            return;  // ❗ STOP: don't continue to send to API
+        }
+
+
         imageList = ImageStorage.imageList;
         imga = new Image("images/Snag_dd734eff", "Weldit AS");
         imga.setWidth("40px");
@@ -225,7 +242,9 @@ public class MainLayoutDraw extends AppLayout {
     @Override
     protected void afterNavigation() {
         super.afterNavigation();
-        viewTitle.setText(getCurrentPageTitle());
+        if (viewTitle != null) {
+            viewTitle.setText(getCurrentPageTitle());
+        }
     }
 
     private String getCurrentPageTitle() {

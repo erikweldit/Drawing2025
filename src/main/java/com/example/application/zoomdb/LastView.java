@@ -30,6 +30,7 @@ import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import com.example.application.config.AppProperties;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -38,15 +39,17 @@ import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
+import com.vaadin.flow.server.VaadinSession;
+import com.example.application.tenant.TenantUrlService;
 
 //@Route(value = "lastviewold", layout = MainLayoutSave.class)
 @Route("lastviewold")
 @PermitAll
 @CssImport("./styles/shared-styles.css")
 public class LastView extends HorizontalLayout {
-
+    private final TenantUrlService tenantUrlService;
     private final SvgImageRepository repository;
-    private  String currentUser = GreetingComponent.userIdents;        //"UserID";
+    private  String currentUser =  VaadinSession.getCurrent().getAttribute("tenantUser") != null ?            VaadinSession.getCurrent().getAttribute("tenantUser").toString() :            GreetingComponent.userIdents;        //"UserID";
     private final Div canvas = new Div();
     private final Div gallery = new Div();
     private final Input rotationInput = new Input();
@@ -54,8 +57,9 @@ public class LastView extends HorizontalLayout {
     private final Span statusMessage = new Span();
     private final Span  responseLabel = new Span(); // gjør det final
 
-    public LastView(@Autowired SvgImageRepository repository) {
+    public LastView(@Autowired SvgImageRepository repository, TenantUrlService tenantUrlService) {
         this.repository = repository;
+        this.tenantUrlService = tenantUrlService;
         setSizeFull();
 
         createMenu();
@@ -448,10 +452,22 @@ public class LastView extends HorizontalLayout {
                 }
             });
 
+            VaadinSession session = VaadinSession.getCurrent();
+            String tenantId = (String) session.getAttribute("tenantId");
+            String userId   = (String) session.getAttribute("userId");
+            String wpqrId   = (String) session.getAttribute("wpqrId");
+            body.add("tenantId", tenantId);
+            body.add("userId", userId);
+            body.add("wpqrId", wpqrId);
+
             HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(body, headers);
             RestTemplate restTemplate = new RestTemplate();
 
-            ResponseEntity<String> response = restTemplate.postForEntity("https://weldit.weldit.no/api/images", request, String.class);
+            // ✅ build URL from properties instead of hardcoding .weldit.local/api/images
+            String url = tenantUrlService.buildTenantApiUrl(tenantId);
+            System.out.println("Posting SVG to: " + url + " for user " + userId);
+
+            ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
 
             if (ui != null) {
                 ui.access(() -> responseLabel.setText("Respons fra API: " + response.getStatusCode()));
