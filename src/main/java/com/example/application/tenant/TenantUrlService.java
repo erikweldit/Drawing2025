@@ -21,7 +21,12 @@ public class TenantUrlService {
     public String buildTenantApiUrl(String tenantId) {
         String apiPath = appProperties.getApiPath();
         String externalApiPath = appProperties.getExternalApiPath();
-        return externalApiPath + apiPath;
+        String environment = appProperties.getEnvironment();
+        if (environment.equals("development")) {
+           return externalApiPath + apiPath;
+        } else {
+            return buildTenantApiUrlNew(tenantId);
+        }   
     }
 
     /**
@@ -46,7 +51,7 @@ public class TenantUrlService {
         String baseDomain = appProperties.getBaseDomain(); // kjwlocal.com
         String apiPath    = appProperties.getApiPath();    // /api/receive-svg
 
-        return "http://" + tenantId + "." + baseDomain + apiPath;
+        return "https://" + tenantId + "." + baseDomain + apiPath;
     }
      public String getDrawingApiToken(String tenantId) {
         String token = appProperties.getDrawingApiToken(); // token to access the web app
