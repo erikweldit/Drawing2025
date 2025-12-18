@@ -11,7 +11,7 @@ public class AppProperties {
     private String apiPath; 
     private String externalApiPath;    // e.g. /api/receive-svg
     private String drawingApiToken;
-    
+    private String environment;
     public String getBaseDomain() {
         return baseDomain;
     }
@@ -42,5 +42,11 @@ public class AppProperties {
 
     public void setDrawingApiToken(String drawingApiToken) {
         this.drawingApiToken = drawingApiToken;
+    }
+    public String getEnvironment() {
+        return environment;
+    }
+    public void setEnvironment(String environment) {
+        this.environment = environment;
     }
 }   
