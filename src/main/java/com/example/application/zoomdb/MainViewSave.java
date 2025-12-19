@@ -49,8 +49,17 @@ public class MainViewSave extends HorizontalLayout {
     private boolean eraserMode = false;
 
     public MainViewSave(@Autowired SvgImageRepository repository, TenantUrlService tenantUrlService) {
+
         this.repository = repository;
         this.tenantUrlService = tenantUrlService;
+        UI ui = UI.getCurrent();
+        VaadinSession session = VaadinSession.getCurrent();
+        String tenantId = (String) session.getAttribute("tenantId");
+        String userId   = (String) session.getAttribute("userId");
+        if (tenantId == null || tenantId.isBlank() || userId == null || userId.isBlank()) {
+           UI.getCurrent().getPage().setLocation("accessdenied");
+            return;
+        }
         setSizeFull();
         //     addClassName(LumoUtility.Background.CONTRAST_5);
         //       addClassName("menu-color");

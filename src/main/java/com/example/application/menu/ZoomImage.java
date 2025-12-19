@@ -15,12 +15,22 @@ import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 
 @Route("zoomimage")
 public class ZoomImage extends AppLayout {   //  extends AppLayout
     double zoom;
 
     public ZoomImage() {
+        UI ui = UI.getCurrent();
+        VaadinSession session = VaadinSession.getCurrent();
+        String tenantId = (String) session.getAttribute("tenantId");
+        String userId   = (String) session.getAttribute("userId");
+        if (tenantId == null || tenantId.isBlank() || userId == null || userId.isBlank()) {
+           UI.getCurrent().getPage().setLocation("accessdenied");
+            return;
+        }
+
        CalcValues.valgIndeks = 4;
         zoom= 4.0/3.0;
         createHeader();

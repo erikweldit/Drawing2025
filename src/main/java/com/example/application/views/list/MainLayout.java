@@ -36,11 +36,6 @@ public class MainLayout extends AppLayout {
         String tenantId = (String) session.getAttribute("tenantId");
         String userId   = (String) session.getAttribute("userId");
         if (tenantId == null || tenantId.isBlank() || userId == null || userId.isBlank()) {
-            if (ui != null) {
-                ui.access(() -> apiResponse.setText(
-                        "⚠️ Tenant ID or User ID missing! Please reload with ?tenant=xxx&user_id=yyy"
-                ));
-            }
            UI.getCurrent().getPage().setLocation("accessdenied");
             return;
         }
